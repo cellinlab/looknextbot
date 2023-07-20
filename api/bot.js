@@ -74,14 +74,17 @@ async function handleAdd(conversation, ctx) {
   try {
     await ctx.reply("Please enter the name you want to add（name must be letters and length 1-8）");
 
-    const resName = await conversation.wait();
+    let resName = await conversation.wait();
 
     console.log("resName: ", resName);
 
-    const name = resName.update.message.text;
+    let name = resName.update.message.text;
 
     while (!/^[a-zA-Z]{1,8}$/.test(name)) {
       await ctx.reply("name must be letters and length 1-8");
+
+      resName = await conversation.wait();
+      name = resName.update.message.text;
     }
 
     ctx.session.name = name;
@@ -89,14 +92,17 @@ async function handleAdd(conversation, ctx) {
     // 地址必须是长度为42位，0x开头，由数字和字母组成的字符串
     await ctx.reply("Please enter the address you want to add（address must be 42 characters long, start with 0x, and consist of numbers and letters）");
 
-    const resAddress = await conversation.wait();
+    let resAddress = await conversation.wait();
 
     console.log("resAddress: ", resAddress);
 
-    const address = resAddress.update.message.text;
+    let address = resAddress.update.message.text;
 
     while (!/^0x[a-zA-Z0-9]{40}$/.test(address)) {
       await ctx.reply("address must be 42 characters long, start with 0x, and consist of numbers and letters");
+
+      resAddress = await conversation.wait();
+      address = resAddress.update.message.text;
     }
 
     ctx.session.address = address;
