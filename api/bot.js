@@ -12,8 +12,8 @@ if (!token) {
 const bot = new Bot(token);
 
 const menu = new Menu('my-menu')
-  .text("🔼 Add", (ctx) => {
-    return ctx.reply("Add");
+  .text("🔼 Add", async (ctx) => {
+    await ctx.conversation.enter("add");
   })
   .text("🔀 Switch", (ctx) => {
     ctx.session.isBuy = !ctx.session.isBuy;
@@ -46,6 +46,7 @@ bot.use(session({
 
 bot.use(conversations());
 bot.use(createConversation(greeting));
+bot.use(createConversation(handleAdd, "add"));
 
 bot.use(menu);
 
