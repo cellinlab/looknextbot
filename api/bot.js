@@ -46,21 +46,18 @@ const sellKeyboard = [
 bot.command("start", async (ctx) => {
   await ctx.reply("Hello, welcome to here, there is looknextbot");
 
-  ctx.session.isBuy = true;
-
-  return ctx.reply('Select a service', {
-    reply_markup: {
-      inline_keyboard: [
-        ...normalKeyboard,
-        ...buyKeyboard,
-      ],
-    },
+  return ctx.editMessageReplyMarkup({
+    inline_keyboard: [
+      ...normalKeyboard,
+      ...buyKeyboard,
+    ],
   });
 });
 
 bot.on("callback_query:data", async (ctx) => {
   const data = ctx.callbackQuery.data;
 
+  console.log(`callback_query:data ${data}`);
 
   switch (data) {
     case "btn_switch":
