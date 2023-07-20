@@ -18,14 +18,20 @@ const menu = new Menu('my-menu')
     ctx.session.isBuy = !ctx.session.isBuy;
     ctx.menu.update();
   }).row()
-  .text(() => {
-    const type = this.session.isBuy ? "🛒 Buy" : "💰 Sell";
-    return `${type} 0.01`;
-  }, () => { })
-  .text(() => {
-    const type = this.session.isBuy ? "🛒 Buy" : "💰 Sell";
-    return `${type} 0.5`;
-  }, () => { }).row();
+  .text(
+    (ctx) => {
+      const type = ctx.session.isBuy ? "🛒 Buy" : "💰 Sell";
+      return `${type} 0.01`;
+    },
+    (ctx) => { }
+  )
+  .text(
+    (ctx) => {
+      const type = ctx.session.isBuy ? "🛒 Buy" : "💰 Sell";
+      return `${type} 0.5`;
+    },
+    (ctx) => { }
+  ).row();
 
 function initialSession() {
   return {
@@ -45,6 +51,10 @@ bot.command("start", async (ctx) => {
   await ctx.reply("Hello, welcome to here, there is looknextbot", {
     reply_markup: menu
   });
+});
+
+bot.catch((err) => {
+  console.log("Error: ", err);
 });
 
 export default webhookCallback(bot, 'http');
