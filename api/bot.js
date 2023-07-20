@@ -9,6 +9,8 @@ if (!token) {
 
 const bot = new Bot(token);
 
+bot.use(bot.callbackQuery());
+
 const normalKeyboard = [
   [
     { text: "🔼 Add", callback_data: "btn_add" },
@@ -45,14 +47,22 @@ bot.command("start", async (ctx) => {
   });
 });
 
-bot.actions(/btn_switch/, async (ctx) => {
-  ctx.session.isBuy = !ctx.session.isBuy;
+bot.on("callback_query:data", async (ctx) => {
+  const data = ctx.callbackQuery.data;
 
-  const isBuy = ctx.session.isBuy;
 
-  return ctx.editMessageReplyMarkup({
-    inline_keyboard: isBuy ? [...normalKeyboard, ...buyKeyboard] : [...normalKeyboard, ...sellKeyboard],
-  });
+  switch (data) {
+    case "btn_switch":
+      ctx.session.isBuy = !ctx.session.isBuy;
+
+      const isBuy = ctx.session.isBuy;
+
+      return ctx.editMessageReplyMarkup({
+        inline_keyboard: isBuy ? [...normalKeyboard, ...buyKeyboard] : [...normalKeyboard, ...sellKeyboard],
+      });
+    default:
+      return ctx.reply("Unknown command");
+  }
 });
 
 export default webhookCallback(bot, 'http');
