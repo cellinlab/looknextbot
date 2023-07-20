@@ -9,7 +9,16 @@ if (!token) {
 
 const bot = new Bot(token);
 
-bot.use(session());
+function initialSession() {
+  return {
+    isBuy: true,
+  };
+}
+
+bot.use(session({
+  initial: initialSession,
+}));
+
 bot.use(bot.callbackQuery());
 
 
