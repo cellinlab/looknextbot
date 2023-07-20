@@ -101,7 +101,7 @@ async function handleAdd(conversation, ctx) {
 
     ctx.session.address = address;
 
-    const newMenu = menu
+    menu
       .row()
       .text(
         (ctx) => {
@@ -119,6 +119,8 @@ async function handleAdd(conversation, ctx) {
     await ctx.reply("Add success", {
       reply_markup: newMenu
     });
+
+    return await conversation.end();
   } catch (error) {
     console.log("error: ", error);
     await ctx.reply("Add failed");
