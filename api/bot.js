@@ -37,6 +37,8 @@ const menu = new Menu('my-menu')
 function initialSession() {
   return {
     isBuy: true,
+    name: "default name",
+    address: "default address"
   };
 }
 
@@ -82,7 +84,7 @@ async function handleAdd(conversation, ctx) {
       await ctx.reply("name must be letters and length 1-8");
     }
 
-    conversation.state.name = name;
+    ctx.session.name = name;
 
     // 地址必须是长度为42位，0x开头，由数字和字母组成的字符串
     await ctx.reply("Please enter the address you want to add（address must be 42 characters long, start with 0x, and consist of numbers and letters）");
@@ -97,21 +99,21 @@ async function handleAdd(conversation, ctx) {
       await ctx.reply("address must be 42 characters long, start with 0x, and consist of numbers and letters");
     }
 
-    conversation.state.address = address;
+    ctx.session.address = address;
 
     const newMenu = menu
       .row()
       .text(
-        (conversation, ctx) => {
-          return conversation.state.name;
+        (ctx) => {
+          return ctx.session.name;
         },
-        (conversation, ctx) => { }
+        (ctx) => { }
       )
       .text(
-        (conversation, ctx) => {
-          return conversation.state.address;
+        (ctx) => {
+          return ctx.session.address;
         },
-        (conversation, ctx) => { }
+        (ctx) => { }
       );
 
     await ctx.reply("Add success", {
