@@ -1,0 +1,31 @@
+# Node.js
+node_modules/
+npm-debug.log
+
+# Environment variables
+.env
+
+# Bot token
+bot_token
+
+# Log files
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Production build
+build/
+dist/
+
+# Misc
+tmp/*
+temp/*
+cache/*
+*.bak
+*.old
