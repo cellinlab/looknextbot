@@ -68,44 +68,50 @@ async function greeting(conversation, ctx) {
 }
 
 async function handleAdd(conversation, ctx) {
-  await ctx.reply("Please enter the name you want to add（name must be letters and length 1-8）");
+  try {
+    await ctx.reply("Please enter the name you want to add（name must be letters and length 1-8）");
 
-  const { text } = await ctx.waitMessage();
+    const { text } = await ctx.waitMessage();
 
-  while (!/^[a-zA-Z]{1,8}$/.test(text)) {
-    await ctx.reply("name must be letters and length 1-8");
+    while (!/^[a-zA-Z]{1,8}$/.test(text)) {
+      await ctx.reply("name must be letters and length 1-8");
+    }
+
+    conversation.state.name = text;
+
+    // 地址必须是长度为42位，0x开头，由数字和字母组成的字符串
+    await ctx.reply("Please enter the address you want to add（address must be 42 characters long, start with 0x, and consist of numbers and letters）");
+
+    const { text: address } = await ctx.waitMessage();
+
+    while (!/^0x[a-zA-Z0-9]{40}$/.test(address)) {
+      await ctx.reply("address must be 42 characters long, start with 0x, and consist of numbers and letters");
+    }
+
+    conversation.state.address = address;
+
+    const newMenu = menu
+      .row()
+      .text(
+        (conversation, ctx) => {
+          return conversation.state.name;
+        },
+        (conversation, ctx) => { }
+      )
+      .text(
+        (conversation, ctx) => {
+          return conversation.state.address;
+        },
+        (conversation, ctx) => { }
+      );
+
+    await ctx.reply("Add success", {
+      reply_markup: newMenu
+    });
+  } catch (error) {
+    console.log("error: ", error);
+    await ctx.reply("Add failed");
   }
-
-  conversation.state.name = text;
-
-  // 地址必须是长度为42位，0x开头，由数字和字母组成的字符串
-  await ctx.reply("Please enter the address you want to add（address must be 42 characters long, start with 0x, and consist of numbers and letters）");
-
-  const { text: address } = await ctx.waitMessage();
-
-  while (!/^0x[a-zA-Z0-9]{40}$/.test(address)) {
-    await ctx.reply("address must be 42 characters long, start with 0x, and consist of numbers and letters");
-  }
-
-  conversation.state.address = address;
-
-  const newMenu = menu
-    .text(
-      (conversation, ctx) => {
-        return conversation.state.name;
-      },
-      (conversation, ctx) => { }
-    )
-    .text(
-      (conversation, ctx) => {
-        return conversation.state.address;
-      },
-      (conversation, ctx) => { }
-    );
-
-  await ctx.reply("Add success", {
-    reply_markup: newMenu
-  });
 }
 
 export default webhookCallback(bot, 'http');
