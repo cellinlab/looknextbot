@@ -117,7 +117,7 @@ async function handleAdd(conversation, ctx) {
       );
 
     await ctx.reply("Add success", {
-      reply_markup: newMenu
+      reply_markup: menu
     });
 
     return await conversation.end();
