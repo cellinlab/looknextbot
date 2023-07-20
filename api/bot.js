@@ -9,8 +9,9 @@ if (!token) {
 
 const bot = new Bot(token);
 
-bot.use(bot.callbackQuery());
 bot.use(session());
+bot.use(bot.callbackQuery());
+
 
 const normalKeyboard = [
   [
