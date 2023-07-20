@@ -1,11 +1,13 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@grammyjs/menu': ^1.2.1
   cz-conventional-changelog: ^3.3.0
   dotenv: ^16.3.1
   grammy: ^1.17.2
 
 dependencies:
+  '@grammyjs/menu': 1.2.1_grammy@1.17.2
   dotenv: 16.3.1
   grammy: 1.17.2
 
@@ -106,6 +108,15 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: true
     optional: true
+
+  /@grammyjs/menu/1.2.1_grammy@1.17.2:
+    resolution: {integrity: sha512-0LV9A/UukfF46N0ceSqG1RbdCjhvB2u1MNHNkE7eRD3GVlffOBnR+MS2ESE9mSBleT9OjRV6imA7QZ57QBktOQ==}
+    engines: {node: '>=12.20.0 || >=14.13.1'}
+    peerDependencies:
+      grammy: ^1.0.0
+    dependencies:
+      grammy: 1.17.2
+    dev: false
 
   /@grammyjs/types/3.1.2:
     resolution: {integrity: sha512-AsSkTUfZCfSEIacUBOQ94qLbZZy3UofkschWv4uBJKEHjuEfGnjeZZgiwhDfTDjmpmW+MbcasvS+FEfD2jiSLw==}

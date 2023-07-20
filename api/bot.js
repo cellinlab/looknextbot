@@ -1,4 +1,5 @@
 import { Bot, webhookCallback, session } from "grammy";
+import { Menu } from '@grammyjs/menu';
 import "dotenv/config";
 
 const token = process.env.BOT_TOKEN;
@@ -9,6 +10,14 @@ if (!token) {
 
 const bot = new Bot(token);
 
+const menu = new Menu('my-menu')
+  .text("🔼 Add", (ctx) => {
+    return ctx.reply("Add");
+  })
+  .text("🔀 Switch", (ctx) => {
+    return ctx.reply("Switch");
+  }).row()
+
 function initialSession() {
   return {
     isBuy: true,
@@ -18,6 +27,8 @@ function initialSession() {
 bot.use(session({
   initial: initialSession,
 }));
+
+bot.use(menu);
 
 bot.use(bot.callbackQuery());
 
@@ -44,13 +55,8 @@ const sellKeyboard = [
 ];
 
 bot.command("start", async (ctx) => {
-  await ctx.reply("Hello, welcome to here, there is looknextbot");
-
-  return ctx.editMessageReplyMarkup({
-    inline_keyboard: [
-      ...normalKeyboard,
-      ...buyKeyboard,
-    ],
+  await ctx.reply("Hello, welcome to here, there is looknextbot", {
+    reply_markup: menu
   });
 });
 
