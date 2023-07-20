@@ -1,12 +1,14 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@grammyjs/conversations': ^1.1.2
   '@grammyjs/menu': ^1.2.1
   cz-conventional-changelog: ^3.3.0
   dotenv: ^16.3.1
   grammy: ^1.17.2
 
 dependencies:
+  '@grammyjs/conversations': 1.1.2_grammy@1.17.2
   '@grammyjs/menu': 1.2.1_grammy@1.17.2
   dotenv: 16.3.1
   grammy: 1.17.2
@@ -108,6 +110,31 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: true
     optional: true
+
+  /@deno/shim-deno-test/0.4.0:
+    resolution: {integrity: sha512-oYWcD7CpERZy/TXMTM9Tgh1HD/POHlbY9WpzmAk+5H8DohcxG415Qws8yLGlim3EaKBT2v3lJv01x4G0BosnaQ==}
+    dev: false
+
+  /@deno/shim-deno/0.11.0:
+    resolution: {integrity: sha512-z5FRYleehfz1Z0Wp9jilB98cJRGV2HYiLN0FZu1/xwLrQk+hk5VaNKp1nEoyGrUM4MLruTlnhEbqHJwxfnbPLw==}
+    dependencies:
+      '@deno/shim-deno-test': 0.4.0
+      which: 2.0.2
+    dev: false
+
+  /@grammyjs/conversations/1.1.2_grammy@1.17.2:
+    resolution: {integrity: sha512-ARBxa8oBMips2E2ZBVhB5/UFuzx8F3d721p6dJSJ7wSX9Gzuw2KZuQJOrhQnbQWZLgZz4bKBRuqbGzazKXPtZg==}
+    engines: {node: ^12.20.0 || >=14.13.1}
+    peerDependencies:
+      grammy: ^1.10.0
+    dependencies:
+      '@grammyjs/types': 3.1.2
+      debug: 4.3.4
+      grammy: 1.17.2
+      o-son: 1.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /@grammyjs/menu/1.2.1_grammy@1.17.2:
     resolution: {integrity: sha512-0LV9A/UukfF46N0ceSqG1RbdCjhvB2u1MNHNkE7eRD3GVlffOBnR+MS2ESE9mSBleT9OjRV6imA7QZ57QBktOQ==}
@@ -741,7 +768,6 @@ packages:
 
   /isexe/2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
-    dev: true
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -870,6 +896,12 @@ packages:
         optional: true
     dependencies:
       whatwg-url: 5.0.0
+    dev: false
+
+  /o-son/1.0.1:
+    resolution: {integrity: sha512-u3X+gVI4BalcHsFe75miy3UxG3pNcJzXDCS8N5eJLlYY1EdiUC8amUsbXMWlAqJUKJgGTM9OBqAuxvTUACKs2g==}
+    dependencies:
+      '@deno/shim-deno': 0.11.0
     dev: false
 
   /once/1.4.0:
@@ -1185,6 +1217,14 @@ packages:
     dependencies:
       isexe: 2.0.0
     dev: true
+
+  /which/2.0.2:
+    resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
+    engines: {node: '>= 8'}
+    hasBin: true
+    dependencies:
+      isexe: 2.0.0
+    dev: false
 
   /word-wrap/1.2.4:
     resolution: {integrity: sha512-2V81OA4ugVo5pRo46hAoD2ivUJx8jXmWXfUkY4KFNw0hEptvN0QfH3K4nHiwzGeKl5rFKedV48QVoqYavy4YpA==}

@@ -1,5 +1,6 @@
 import { Bot, webhookCallback, session } from "grammy";
 import { Menu } from '@grammyjs/menu';
+import { conversations, createConversation } from '@grammyjs/conversations';
 import "dotenv/config";
 
 const token = process.env.BOT_TOKEN;
@@ -43,18 +44,68 @@ bot.use(session({
   initial: initialSession,
 }));
 
+bot.use(conversations());
+bot.use(createConversation(greeting));
+
 bot.use(menu);
 
 bot.use(bot.callbackQuery());
 
 bot.command("start", async (ctx) => {
-  await ctx.reply("Hello, welcome to here, there is looknextbot", {
-    reply_markup: menu
-  });
+  await ctx.conversation.enter("greeting");
 });
 
 bot.catch((err) => {
   console.log("Error: ", err);
 });
+
+async function greeting(conversation, ctx) {
+  await ctx.reply("Hello, welcome to here, there is looknextbot", {
+    reply_markup: menu
+  });
+
+  return;
+}
+
+async function handleAdd(conversation, ctx) {
+  await ctx.reply("Please enter the name you want to add（name must be letters and length 1-8）");
+
+  const { text } = await ctx.waitMessage();
+
+  while (!/^[a-zA-Z]{1,8}$/.test(text)) {
+    await ctx.reply("name must be letters and length 1-8");
+  }
+
+  conversation.state.name = text;
+
+  // 地址必须是长度为42位，0x开头，由数字和字母组成的字符串
+  await ctx.reply("Please enter the address you want to add（address must be 42 characters long, start with 0x, and consist of numbers and letters）");
+
+  const { text: address } = await ctx.waitMessage();
+
+  while (!/^0x[a-zA-Z0-9]{40}$/.test(address)) {
+    await ctx.reply("address must be 42 characters long, start with 0x, and consist of numbers and letters");
+  }
+
+  conversation.state.address = address;
+
+  const newMenu = menu
+    .text(
+      (conversation, ctx) => {
+        return conversation.state.name;
+      },
+      (conversation, ctx) => { }
+    )
+    .text(
+      (conversation, ctx) => {
+        return conversation.state.address;
+      },
+      (conversation, ctx) => { }
+    );
+
+  await ctx.reply("Add success", {
+    reply_markup: newMenu
+  });
+}
 
 export default webhookCallback(bot, 'http');
