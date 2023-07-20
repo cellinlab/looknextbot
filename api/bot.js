@@ -7,4 +7,4 @@ const bot = new Bot(token);
 
 bot.command("start", (ctx) => ctx.reply("Hello World!"));
 
-webhookCallback(bot, 'https');
+export default webhookCallback(bot, 'https');
