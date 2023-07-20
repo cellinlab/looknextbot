@@ -76,7 +76,7 @@ async function handleAdd(conversation, ctx) {
 
     console.log("resName: ", resName);
 
-    const name = resName.message.text;
+    const name = resName.update.message.text;
 
     while (!/^[a-zA-Z]{1,8}$/.test(name)) {
       await ctx.reply("name must be letters and length 1-8");
@@ -91,7 +91,7 @@ async function handleAdd(conversation, ctx) {
 
     console.log("resAddress: ", resAddress);
 
-    const address = resAddress.message.text;
+    const address = resAddress.update.message.text;
 
     while (!/^0x[a-zA-Z0-9]{40}$/.test(address)) {
       await ctx.reply("address must be 42 characters long, start with 0x, and consist of numbers and letters");
