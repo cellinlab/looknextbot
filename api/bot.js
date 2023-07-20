@@ -1,4 +1,4 @@
-import { Bot, webhookCallback } from "grammy";
+import { Bot, webhookCallback, session } from "grammy";
 import "dotenv/config";
 
 const token = process.env.BOT_TOKEN;
@@ -10,6 +10,7 @@ if (!token) {
 const bot = new Bot(token);
 
 bot.use(bot.callbackQuery());
+bot.use(session());
 
 const normalKeyboard = [
   [
