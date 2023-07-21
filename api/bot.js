@@ -68,6 +68,9 @@ async function handleAdd(ctx) {
     await ctx.reply("Please enter the name you want to add（name must be letters and length 1-8）");
 
     console.log("ctx: ", ctx);
+    console.log('ctx.update', ctx.update);
+    console.log('ctx.update.callback_query', ctx.update.callback_query);
+
 
     // let name = resName.update.message.text;
 
@@ -78,7 +81,7 @@ async function handleAdd(ctx) {
     //   name = resName.update.message.text;
     // }
 
-    ctx.session.name = name;
+    // ctx.session.name = name;
 
     // // 地址必须是长度为42位，0x开头，由数字和字母组成的字符串
     // await ctx.reply("Please enter the address you want to add（address must be 42 characters long, start with 0x, and consist of numbers and letters）");
@@ -94,7 +97,7 @@ async function handleAdd(ctx) {
     //   address = resAddress.update.message.text;
     // }
 
-    ctx.session.address = address;
+    // ctx.session.address = address;
 
     await ctx.reply("Add success");
 
