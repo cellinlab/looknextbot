@@ -98,10 +98,9 @@ async function handleAdd(ctx) {
     // }
 
     // ctx.session.address = address;
-
-    await ctx.reply("Add success");
-
-    ctx.menu.update();
+    await ctx.reply("Add success", {
+      reply_markup: menu
+    });
   } catch (error) {
     console.log("error: ", error);
     await ctx.reply("Add failed");
