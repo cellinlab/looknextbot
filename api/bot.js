@@ -111,9 +111,11 @@ async function handleAdd(conversation, ctx) {
 
     ctx.session.address = address;
 
-    await ctx.reply("Add success", {
-      reply_markup: menu
-    });
+
+    console.log('conversation.menu', conversation.menu);
+    console.log('ctx.menu', ctx.menu);
+
+    await conversation.menu.update();
 
     return;
   } catch (error) {
