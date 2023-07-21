@@ -43,7 +43,8 @@ function initialSession() {
   return {
     isBuy: true,
     name: "default name",
-    address: "default address"
+    address: "default address",
+    conversation: null,
   };
 }
 
@@ -59,6 +60,44 @@ bot.command("start", async (ctx) => {
   });
 });
 
+bot.on('message', (ctx) => {
+  console.log("ctx: ", ctx);
+
+  const conversation = ctx.session.conversation;
+
+  switch (conversation) {
+    case 'add_name':
+      const name = ctx.message.text;
+
+      if (!/^[a-zA-Z]{1,8}$/.test(name)) {
+        ctx.reply("name must be letters and length 1-8");
+        return;
+      } else {
+        ctx.session.name = name;
+        ctx.session.conversation = 'add_address';
+
+        ctx.reply("Please enter the address you want to add（address must be 42 characters long, start with 0x, and consist of numbers and letters）");
+      }
+    case 'add_address':
+      const address = ctx.message.text;
+
+      if (!/^0x[a-zA-Z0-9]{40}$/.test(address)) {
+        ctx.reply("address must be 42 characters long, start with 0x, and consist of numbers and letters");
+        return;
+      } else {
+        ctx.session.address = address;
+        ctx.session.conversation = null;
+
+        ctx.reply("Add success", {
+          reply_markup: menu
+        });
+      }
+    default:
+      ctx.reply("Please enter the command");
+      break;
+  }
+});
+
 bot.catch((err) => {
   console.log("Error: ", err);
 });
@@ -67,9 +106,7 @@ async function handleAdd(ctx) {
   try {
     await ctx.reply("Please enter the name you want to add（name must be letters and length 1-8）");
 
-    console.log("ctx: ", ctx);
-    console.log('ctx.update', ctx.update);
-    console.log('ctx.update.callback_query', ctx.update.callback_query);
+    ctx.session.conversation = 'add_name';
 
 
     // let name = resName.update.message.text;
@@ -98,9 +135,6 @@ async function handleAdd(ctx) {
     // }
 
     // ctx.session.address = address;
-    await ctx.reply("Add success", {
-      reply_markup: menu
-    });
   } catch (error) {
     console.log("error: ", error);
     await ctx.reply("Add failed");
