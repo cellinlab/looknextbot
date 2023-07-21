@@ -78,11 +78,11 @@ async function greeting(conversation, ctx) {
 
 async function handleAdd(conversation, ctx) {
   try {
+    console.log('conversation', conversation);
+    console.log('ctx', ctx);
     await ctx.reply("Please enter the name you want to add（name must be letters and length 1-8）");
 
     let resName = await conversation.wait();
-
-    console.log("resName: ", resName);
 
     let name = resName.update.message.text;
 
@@ -99,8 +99,6 @@ async function handleAdd(conversation, ctx) {
     await ctx.reply("Please enter the address you want to add（address must be 42 characters long, start with 0x, and consist of numbers and letters）");
 
     let resAddress = await conversation.wait();
-
-    console.log("resAddress: ", resAddress);
 
     let address = resAddress.update.message.text;
 
