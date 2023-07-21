@@ -14,7 +14,6 @@ const bot = new Bot(token);
 const menu = new Menu('my-menu')
   .text("🔼 Add", async (ctx) => {
     await ctx.conversation.enter("add");
-    ctx.menu.update();
   })
   .text("🔀 Switch", (ctx) => {
     ctx.session.isBuy = !ctx.session.isBuy;
@@ -113,6 +112,8 @@ async function handleAdd(conversation, ctx) {
     }
 
     ctx.session.address = address;
+
+    ctx.menu.update();
 
     return;
   } catch (error) {
