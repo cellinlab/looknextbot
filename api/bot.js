@@ -61,8 +61,6 @@ bot.use(createConversation(handleAdd, "add"));
 
 bot.use(menu);
 
-bot.use(bot.callbackQuery());
-
 bot.command("start", async (ctx) => {
   await ctx.conversation.enter("greeting");
 });
