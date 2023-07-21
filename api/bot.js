@@ -14,6 +14,7 @@ const bot = new Bot(token);
 const menu = new Menu('my-menu')
   .text("🔼 Add", async (ctx) => {
     await ctx.conversation.enter("add");
+    ctx.menu.update();
   })
   .text("🔀 Switch", (ctx) => {
     ctx.session.isBuy = !ctx.session.isBuy;
@@ -32,7 +33,15 @@ const menu = new Menu('my-menu')
       return `${type} 0.5`;
     },
     (ctx) => { }
-  ).row();
+  ).row()
+  .dynamic((ctx, range) => {
+    if (ctx.session.name !== "default name" && ctx.session.address !== "default address") {
+      range
+        .text(ctx.session.name, (ctx) => { })
+        .text(ctx.session.address, (ctx) => { })
+        .row();
+    }
+  });
 
 function initialSession() {
   return {
@@ -107,26 +116,7 @@ async function handleAdd(conversation, ctx) {
 
     ctx.session.address = address;
 
-    menu
-      .row()
-      .text(
-        (ctx) => {
-          return ctx.session.name;
-        },
-        (ctx) => { }
-      )
-      .text(
-        (ctx) => {
-          return ctx.session.address;
-        },
-        (ctx) => { }
-      );
-
-    await ctx.reply("Add success", {
-      reply_markup: menu
-    });
-
-    return await conversation.end();
+    return;
   } catch (error) {
     console.log("error: ", error);
     await ctx.reply("Add failed");
